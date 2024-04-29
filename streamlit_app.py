@@ -1,40 +1,26 @@
-import altair as alt
-import numpy as np
-import pandas as pd
+import folium
 import streamlit as st
 
-"""
-# Welcome to Streamlit!
+from streamlit_folium import st_folium
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+st.set_page_config(layout="wide")
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+m = folium.Map(location=(45, -90), zoom_start=5)
 
-num_points = st.slider("Number of points in spiral", 1, 10000, 1100)
-num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
+left, right = st.columns([2, 1])
+with left:
+    st_folium(m, use_container_width=True, key="1", debug=True)
+with right:
+    st_folium(m, use_container_width=True, key="2", debug=True)
 
-indices = np.linspace(0, 1, num_points)
-theta = 2 * np.pi * num_turns * indices
-radius = indices
+st_folium(m, use_container_width=True, key="3", debug=True)
 
-x = radius * np.cos(theta)
-y = radius * np.sin(theta)
 
-df = pd.DataFrame({
-    "x": x,
-    "y": y,
-    "idx": indices,
-    "rand": np.random.randn(num_points),
-})
+col1, col2, col3 = st.columns([1, 2, 3])
 
-st.altair_chart(alt.Chart(df, height=700, width=700)
-    .mark_point(filled=True)
-    .encode(
-        x=alt.X("x", axis=None),
-        y=alt.Y("y", axis=None),
-        color=alt.Color("idx", legend=None, scale=alt.Scale()),
-        size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
-    ))
+with col1:
+    st_folium(m, use_container_width=True, key="4", debug=True)
+with col2:
+    st_folium(m, use_container_width=True, key="5", debug=True)
+with col3:
+    st_folium(m, use_container_width=True, key="6", debug=True)
